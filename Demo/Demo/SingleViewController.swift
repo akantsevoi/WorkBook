@@ -27,7 +27,6 @@ class SingleViewController: UIViewController {
     var trackModel: TrackModel = TrackModel(name: "Numb", author: "Linkin park", duration: 230, purchased: true) {
         didSet {
             updateModel()
-            updateModel()
         }
     }
     
@@ -36,7 +35,9 @@ class SingleViewController: UIViewController {
         
         binder = WorkbookBinder<TrackModel>(value: self.trackModel, resourceKey: "audioTrack")
         binder.subscribe { [weak self] (newModel) in
-            self?.trackModel = newModel
+            DispatchQueue.main.async {
+                self?.trackModel = newModel
+            }
         }
     }
     

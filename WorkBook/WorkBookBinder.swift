@@ -21,11 +21,14 @@ public class WorkbookBinder<T: Codable>: WebSocketDelegate {
     private var callBacks: [(T)->Void] = []
     private var value: T
     
-    public init(value: T, resourceKey: String) {
+    public init(value: T,
+                resourceKey: String,
+                callBackQueue: DispatchQueue = DispatchQueue(label: "com.Workbook.\(UUID().uuidString)")) {
         self.socket = WebSocket(url: WorkBookConstants.resourceURL(resourceKey))
         self.tag = "Binder<\(T.self)-\(resourceKey)>"
         self.value = value
         self.resourceKey = resourceKey
+        socket.callbackQueue = callBackQueue
         socket.delegate = self
         socket.connect()
     }

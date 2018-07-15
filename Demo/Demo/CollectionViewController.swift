@@ -26,7 +26,9 @@ class CollectionViewController: UIViewController, UITableViewDataSource {
 
         binder = WorkbookBinder<[String]>(value: self.models, resourceKey: "names")
         binder.subscribe { [weak self] (newNames) in
-            self?.models = newNames
+            DispatchQueue.main.async {
+                self?.models = newNames
+            }
         }
     }
 
